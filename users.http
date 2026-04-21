@@ -1,0 +1,69 @@
+
+@baseUrl = https://expensetracker-backend-l641.onrender.com
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjksImlhdCI6MTc3NDMzMjY4NiwiZXhwIjoxNzc0NDE5MDg2fQ.XpUqL37-KOZkeYVioHKulo7_Q7hbvjmHr_2SddLorKo
+
+### Register New user
+post {{baseUrl}}/auth/register 
+Content-Type:application/json
+
+ {
+    "name":"yugandhar",
+    "email":"boyayugandhar@gmail.com",
+    "password":"yuga123"
+ }
+
+### Login User
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "boyayugandhar135@gmail.com",
+  "password": "yuga123"
+}
+
+
+### get all users
+get {{baseUrl}}/users
+
+### delete user by id
+delete {{baseUrl}}/users/8
+
+### Create Transaction
+POST {{baseUrl}}/transactions
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+   
+ {
+      "title": "Electricity Bill",
+      "amount": 1200,
+      "category": "Bills",
+      "type": "expense",
+      "date": "2025-05-21"
+    }
+
+### update transactions
+put {{baseUrl}}/transactions/1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+   "title": "thirupathi",
+   "amount": 300,
+   "type": "expense",
+   "category": "transport",
+   "date": "2026-02-15"
+}
+
+### delete transaction
+delete {{baseUrl}}/transactions/1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### get Total Expense
+get {{baseUrl}}/dashboard/total
+Authorization: Bearer {{token}}
+
+### Category Wise Expense
+get {{baseUrl}}/dashboard/category
+Authorization: Bearer {{token}}

@@ -11,8 +11,21 @@ const initializeDB = async () => {
     database: process.env.MYSQLDATABASE,
     port: process.env.MYSQLPORT,
   });
-  await db.promise().connect();
-  await createTables(db);
+
+  db.connect(async (err) => {
+    if (err) {
+      console.error("DB Connection Error:", err.message);
+      return;
+    }
+
+    console.log("Connected to MySQL DB");
+
+    try {
+      await createTables(db);
+    } catch (error) {
+      console.error("Table creation error:", error.message);
+    }
+  });
 };
 
 const getDB = () => db;

@@ -1,36 +1,37 @@
-const mysql = require("mysql2");
+const mysql = require("mysql2/promise");
 const createTables = require("./tables");
 
 let db = null;
 
 const initializeDB = async () => {
-  db = mysql.createConnection({
-    host: process.env.MYSQLHOST,
-    user: process.env.MYSQLUSER,
-    password: process.env.MYSQLPASSWORD,
-    database: process.env.MYSQLDATABASE,
-    port: process.env.MYSQLPORT,
+  try {
+    db = await mysql.createPool({
+      host: process.env.MYSQLHOST,
+      user: process.env.MYSQLUSER,
+      password: process.env.MYSQLPASSWORD,
+      database: process.env.MYSQLDATABASE,
+      port: process.env.MYSQLPORT,
 
-    ssl: {
-      rejectUnauthorized: false,
-    },
-  });
+      waitForConnections: true,
+      connectionLimit: 5,
+      queueLimit: 0,
 
-  db.connect(async (err) => {
-    if (err) {
-      console.error("DB Connection Error FULL:", err);
-      return;
-    }
+      connectTimeout: 10000,
+      enableKeepAlive: true,
+      keepAliveInitialDelay: 0,
+
+      ssl: {
+        rejectUnauthorized: false,
+      },
+    });
 
     console.log("Connected to MySQL DB");
 
-    try {
-      await createTables(db);
-      console.log("Tables checked/created successfully");
-    } catch (error) {
-      console.error("Table creation error FULL:", error);
-    }
-  });
+    await createTables(db);
+    console.log("Tables checked/created successfully");
+  } catch (err) {
+    console.error("DB Connection Error FULL:", err);
+  }
 };
 
 const getDB = () => db;

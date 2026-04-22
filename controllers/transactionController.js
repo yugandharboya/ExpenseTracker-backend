@@ -20,7 +20,7 @@ const addTransaction = async (req, res) => {
   }
 
   try {
-    await db.promise().query(
+    await db.query(
       `INSERT INTO transactions
        (user_id, title, amount, type, category, date)
        VALUES (?, ?, ?, ?, ?, ?)`,
@@ -75,9 +75,11 @@ const getTransactions = async (req, res) => {
   const offset = (page - 1) * limit;
 
   try {
-    const [rows] = await db
-      .promise()
-      .query(query, [...params, Number(limit), Number(offset)]);
+    const [rows] = await db.query(query, [
+      ...params,
+      Number(limit),
+      Number(offset),
+    ]);
 
     return res.status(200).json({
       transactions: rows,
@@ -105,12 +107,10 @@ const updateTransaction = async (req, res) => {
   }
 
   try {
-    const [rows] = await db
-      .promise()
-      .query(`SELECT * FROM transactions WHERE id = ? AND user_id = ?`, [
-        id,
-        userId,
-      ]);
+    const [rows] = await db.query(
+      `SELECT * FROM transactions WHERE id = ? AND user_id = ?`,
+      [id, userId],
+    );
 
     if (rows.length === 0) {
       return res.status(404).json({
@@ -118,7 +118,7 @@ const updateTransaction = async (req, res) => {
       });
     }
 
-    await db.promise().query(
+    await db.query(
       `UPDATE transactions
        SET title=?, amount=?, type=?, category=?, date=?
        WHERE id=? AND user_id=?`,
@@ -141,12 +141,10 @@ const deleteTransaction = async (req, res) => {
   const { userId } = req.user;
 
   try {
-    const [rows] = await db
-      .promise()
-      .query(`SELECT * FROM transactions WHERE id = ? AND user_id = ?`, [
-        id,
-        userId,
-      ]);
+    const [rows] = await db.query(
+      `SELECT * FROM transactions WHERE id = ? AND user_id = ?`,
+      [id, userId],
+    );
 
     if (rows.length === 0) {
       return res.status(404).json({
@@ -154,12 +152,10 @@ const deleteTransaction = async (req, res) => {
       });
     }
 
-    await db
-      .promise()
-      .query(`DELETE FROM transactions WHERE id = ? AND user_id = ?`, [
-        id,
-        userId,
-      ]);
+    await db.query(`DELETE FROM transactions WHERE id = ? AND user_id = ?`, [
+      id,
+      userId,
+    ]);
 
     return res.status(200).json({
       message: "Transaction deleted successfully",

@@ -13,9 +13,10 @@ const registerUser = async (req, res) => {
   }
 
   try {
-    const [existingUser] = await db
-      .promise()
-      .query(`SELECT * FROM users WHERE email = ?`, [email]);
+    const [existingUser] = await db.query(
+      `SELECT * FROM users WHERE email = ?`,
+      [email],
+    );
 
     if (existingUser.length > 0) {
       return res.status(400).json({
@@ -25,13 +26,10 @@ const registerUser = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const [result] = await db
-      .promise()
-      .query(`INSERT INTO users (name, email, password) VALUES (?, ?, ?)`, [
-        name,
-        email,
-        hashedPassword,
-      ]);
+    const [result] = await db.query(
+      `INSERT INTO users (name, email, password) VALUES (?, ?, ?)`,
+      [name, email, hashedPassword],
+    );
 
     const token = generateToken({ userId: result.insertId });
 
@@ -58,9 +56,9 @@ const loginUser = async (req, res) => {
   }
 
   try {
-    const [rows] = await db
-      .promise()
-      .query(`SELECT * FROM users WHERE email = ?`, [email]);
+    const [rows] = await db.query(`SELECT * FROM users WHERE email = ?`, [
+      email,
+    ]);
 
     if (rows.length === 0) {
       return res.status(400).json({

@@ -5,7 +5,7 @@ const getTotalExpense = async (req, res) => {
   const { userId } = req.user;
 
   try {
-    const [rows] = await db.promise().query(
+    const [rows] = await db.query(
       `SELECT SUM(amount) as total
          FROM transactions
          WHERE user_id = ? AND type = 'expense'`,
@@ -27,7 +27,7 @@ const getCategoryWiseExpense = async (req, res) => {
   const { userId } = req.user;
 
   try {
-    const [rows] = await db.promise().query(
+    const [rows] = await db.query(
       `SELECT category, SUM(amount) as total
          FROM transactions
          WHERE user_id = ? AND type = 'expense'

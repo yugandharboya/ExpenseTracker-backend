@@ -1,5 +1,5 @@
 const createTables = async (db) => {
-  await db.promise().query(`
+  await db.query(`
     CREATE TABLE IF NOT EXISTS users (
       id INT AUTO_INCREMENT PRIMARY KEY,
       name VARCHAR(255) NOT NULL,
@@ -9,7 +9,7 @@ const createTables = async (db) => {
     );
   `);
 
-  await db.promise().query(`
+  await db.query(`
     CREATE TABLE IF NOT EXISTS transactions (
       id INT AUTO_INCREMENT PRIMARY KEY,
       user_id INT,

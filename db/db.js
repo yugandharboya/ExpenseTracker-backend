@@ -10,11 +10,15 @@ const initializeDB = async () => {
     password: process.env.MYSQLPASSWORD,
     database: process.env.MYSQLDATABASE,
     port: process.env.MYSQLPORT,
+
+    ssl: {
+      rejectUnauthorized: false,
+    },
   });
 
   db.connect(async (err) => {
     if (err) {
-      console.error("DB Connection Error:", err.message);
+      console.error("DB Connection Error FULL:", err);
       return;
     }
 
@@ -22,8 +26,9 @@ const initializeDB = async () => {
 
     try {
       await createTables(db);
+      console.log("Tables checked/created successfully");
     } catch (error) {
-      console.error("Table creation error:", error.message);
+      console.error("Table creation error FULL:", error);
     }
   });
 };

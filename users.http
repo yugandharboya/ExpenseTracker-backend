@@ -1,5 +1,5 @@
 
-@baseUrl = https://expensetracker-backend-l641.onrender.com
+@baseUrl = https://expensetracker-backend-lvzi.onrender.com
 @token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjksImlhdCI6MTc3NDMzMjY4NiwiZXhwIjoxNzc0NDE5MDg2fQ.XpUqL37-KOZkeYVioHKulo7_Q7hbvjmHr_2SddLorKo
 
 ### Register New user

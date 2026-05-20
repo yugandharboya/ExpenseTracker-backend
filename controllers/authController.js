@@ -61,8 +61,8 @@ const loginUser = async (req, res) => {
     ]);
 
     if (rows.length === 0) {
-      return res.status(400).json({
-        message: "Invalid Email",
+      return res.status(401).json({
+        message: "Invalid credentials",
       });
     }
 
@@ -71,8 +71,8 @@ const loginUser = async (req, res) => {
     const isMatched = await bcrypt.compare(password, user.password);
 
     if (!isMatched) {
-      return res.status(400).json({
-        message: "Invalid Password",
+      return res.status(401).json({
+        message: "Invalid credentials",
       });
     }
 
@@ -83,6 +83,7 @@ const loginUser = async (req, res) => {
       token,
     });
   } catch (error) {
+    console.error(error);
     return res.status(500).json({
       message: "Server Error",
     });

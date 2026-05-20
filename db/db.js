@@ -28,9 +28,9 @@ const initializeDB = async () => {
     console.log("Connected to MySQL DB");
 
     await createTables(db);
-    console.log("Tables checked/created successfully");
+    console.log("Tables created successfully");
   } catch (err) {
-    console.error("DB Connection Error FULL:", err);
+    console.error("DB Connection Error:  ", err);
   }
 };
 

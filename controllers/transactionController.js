@@ -81,6 +81,7 @@ const getTransactions = async (req, res) => {
       Number(offset),
     ]);
 
+    const totalDbTransactions = `select count(*) from transactions `;
     return res.status(200).json({
       transactions: rows,
       hasMore: rows.length === Number(limit),

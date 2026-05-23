@@ -5,7 +5,7 @@ const getTotalExpense = async (req, res) => {
   const { userId } = req.user;
   const { startDate, endDate } = req.query;
 
-  let query = `SELECT SUM(amount) as total
+  let query = `SELECT SUM(amount) as total, COUNT(*) as count
          FROM transactions
          WHERE user_id = ? AND type = 'expense'`;
   let params = [userId];
@@ -18,6 +18,7 @@ const getTotalExpense = async (req, res) => {
 
     return res.status(200).json({
       total: rows[0].total || 0,
+      count: rows[0].count || 0,
     });
   } catch (error) {
     return res.status(500).json({
@@ -51,8 +52,24 @@ const getCategoryWiseExpense = async (req, res) => {
     });
   }
 };
-
+const getRecentTransactions = async (req, res) => {
+  const db = getDB();
+  const { userId } = req.user;
+  const { limit = 10 } = req.query;
+  try {
+    const [rows] = await db.query(
+      `SELECT * FROM transactions WHERE user_id=?  
+      ORDER BY date DESC 
+      LIMIT ? OFFSET ? `,
+      [userId, Number(limit), 0],
+    );
+    return res.status(200).json(rows);
+  } catch (error) {
+    return res.status(500).json({ message: "Server Error" });
+  }
+};
 module.exports = {
   getTotalExpense,
   getCategoryWiseExpense,
+  getRecentTransactions,
 };

@@ -1,7 +1,14 @@
 const express = require("express");
 const router = express.Router();
+const authenticateToken = require("../middleware/authMiddleware");
 
-const { getAllUsers, deleteUser } = require("../controllers/userController");
+const {
+  getCurrentUser,
+  getAllUsers,
+  deleteUser,
+} = require("../controllers/userController");
+
+router.get("/me", authenticateToken, getCurrentUser);
 
 router.get("/", getAllUsers);
 

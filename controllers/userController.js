@@ -41,4 +41,26 @@ const deleteUser = async (req, res) => {
   }
 };
 
-module.exports = { getAllUsers, deleteUser };
+const getCurrentUser = async (req, res) => {
+  const db = getDB();
+
+  const { userId } = req.user;
+
+  try {
+    const [rows] = await db.execute(
+      `
+      SELECT id, name, email
+      FROM users
+      WHERE id = ?
+      `,
+      [userId],
+    );
+
+    return res.status(200).json(rows[0]);
+  } catch (error) {
+    return res.status(500).json({
+      message: "Server Error",
+    });
+  }
+};
+module.exports = { getCurrentUser, getAllUsers, deleteUser };

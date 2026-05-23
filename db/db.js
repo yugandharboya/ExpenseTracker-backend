@@ -31,6 +31,7 @@ const initializeDB = async () => {
     console.log("Tables created successfully");
   } catch (err) {
     console.error("DB Connection Error:  ", err);
+    process.exit(1);
   }
 };
 

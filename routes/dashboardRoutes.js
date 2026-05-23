@@ -6,10 +6,13 @@ const authenticateToken = require("../middleware/authMiddleware");
 const {
   getTotalExpense,
   getCategoryWiseExpense,
+  getRecentTransactions,
 } = require("../controllers/dashboardController");
 
-router.get("/total", authenticateToken, getTotalExpense);
+router.get("/summary", authenticateToken, getTotalExpense);
 
-router.get("/category", authenticateToken, getCategoryWiseExpense);
+router.get("/category-summary", authenticateToken, getCategoryWiseExpense);
+
+router.get("/recent-transactions", authenticateToken, getRecentTransactions);
 
 module.exports = router;

@@ -4,6 +4,12 @@ const createTables = require("./tables");
 let db = null;
 
 const initializeDB = async () => {
+  console.log({
+    MYSQLHOST: process.env.MYSQLHOST,
+    MYSQLUSER: process.env.MYSQLUSER,
+    MYSQLDATABASE: process.env.MYSQLDATABASE,
+    MYSQLPORT: process.env.MYSQLPORT,
+  });
   try {
     db = await mysql.createPool({
       host: process.env.MYSQLHOST,
